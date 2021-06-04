@@ -8,8 +8,8 @@
 
 On retrouve dans ce TP deux éxécutable.
 
-*   le premier éxécutable : ***exo1*** 
-*   le deuxième éxécutable : ***exo2*** 
+*   le premier éxécutable : ***exo2*** 
+*   le deuxième éxécutable : ***exo3*** 
 
 
 ## Commande d'éxécution
@@ -17,6 +17,7 @@ On retrouve dans ce TP deux éxécutable.
 
 Pour l'instalation de ***exo2***  
 ###### En étant dans le dossier TP9 :
+
 ```Bash
     /TP9 make run_2
 ```
