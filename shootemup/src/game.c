@@ -11,6 +11,7 @@
 #include "background.h"
 
 void menu_pause(int *quit, double width, double height);
+
 void game();
 
 int main(int argc, char *argv[])
@@ -18,9 +19,10 @@ int main(int argc, char *argv[])
     game();
     return 0;
 }
+
 void menu_pause(int *quit, double width, double height)
 {
-    MLV_change_default_font("./../font/PressStart2P.ttf",40);
+    MLV_change_default_font("./../font/PressStart2P.ttf", 40);
     MLV_draw_text(
         width * 0.40, height * 0.40,
         "Pause",
@@ -58,7 +60,7 @@ void game()
         Décalaration des variables qui contiendront les positions
         de la souris.
     */
-    
+
     //double width = MLV_get_desktop_width()*RATIO_SCREEN;
     //double height = MLV_get_desktop_height()*RATIO_SCREEN;
     double width = 1600;
@@ -81,14 +83,14 @@ void game()
     */
     Data *data = creatData();
 
-    /*cahnge position player*/
-    data->p->center->x=width/2;
-    data->p->center->y=height - height/5;
+    /*cahnge position Player*/
+    data->p->center->x = width / 2;
+    data->p->center->y = height - height / 5;
 
     /*Creation des weapon*/
-    Weapon ** tabWeapon =create_Table_Weapon_File("weapon.txt");
+    Weapon **tabWeapon = create_Table_Weapon_File("weapon.txt");
     /*Creation des ennemis*/
-    Ennemi ** tabEnemies =create_Table_Enemie_File("enemies.txt",tabWeapon);
+    Ennemi **tabEnnemis = create_Table_Ennemi_File("Ennemis.txt", tabWeapon);
 
     /*changment d'Ennemi*/
     int monster = 0;
@@ -102,36 +104,37 @@ void game()
     */
     MLV_create_window("Test ", "test", width, height);
     MLV_change_frame_rate(60);
-    
+
     int waves = 0;
     do
     {
-        
-        if(frame>300){
 
-            //generateur de niveau 
+        if (frame > 300)
+        {
+            //generateur de niveau
             if (waves < WAVES)
             {
                 if (frame % (60 * 5) == 0)
                 {
-                    Ennemi *e = tabEnemies[monster];
+                    Ennemi *e = tabEnnemis[monster];
                     int numbers = width / e->hit->width;
-                    int first_position = e->hit->width/2 +20;
+                    int first_position = e->hit->width / 2 + 20;
                     int j;
                     Ennemi *tmp;
                     for (j = 0; j < numbers; j++)
                     {
-                        tmp = copyEnemie(e);
+                        tmp = copyEnnemi(e);
                         tmp->center->x = first_position + (j * (e->hit->width * 2));
                         tmp->center->y = tmp->hit->height / 2;
-                        addEnemieINTable(tmp, &data->tabEnemie);
+                        addEnnemiINTable(tmp, &data->tabEnnemi);
                     }
                     monster = (monster + 1) % 4;
                     waves++;
                 }
-            }else
+            }
+            else
             {
-                if (table_Enemie_Empty(data->tabEnemie))
+                if (is_Table_Ennemi_Empty(data->tabEnnemi))
                 {
                     win = 1;
                 }
@@ -153,45 +156,44 @@ void game()
             }
         }
 
-        if(frame%5==0){
+        if (frame % 5 == 0)
+        {
 
-            addMissilePlayer(&(data->tabMPlayer), data->p, PLAYER_M_SPEED);
+            addMissilePlayer(&(data->tabMPlayer), data->p);
         }
-        fireEnemieWithTime(&(data->tabEnemie), &(data->tabMEnemie),data->p,frame);
+        fireEnnemiWithTime(&(data->tabEnnemi), &(data->tabMEnnemi), data->p, frame);
         //On fait changer de position cahque element de l'ecran
-        /* missiles*/
-        changeEnemiesPosition(&data->tabEnemie, width, height);
-        data->tabMPlayer = changeMissilesPosition(data->tabMPlayer,width, height);
-        data->tabMEnemie = changeMissilesPosition(data->tabMEnemie,width, height);
+        /* Missiles*/
+        changeEnnemisPosition(&data->tabEnnemi, width, height);
+        data->tabMPlayer = changeMissilesPosition(data->tabMPlayer, width, height);
+        data->tabMEnnemi = changeMissilesPosition(data->tabMEnnemi, width, height);
         /*Joueur*/
         data->p = changePositionPlayer(data->p, width, height);
 
         //On test les colisions
-        colisionMissPlayerEnemie(data);
-        colisionMissEnemiePlayer(data, &lose);
+        colisionMissPlayerEnnemi(data);
+
+        colisionMissEnnemiPlayer(data, &lose);
 
         /*Affichage */
         MLV_clear_window(MLV_COLOR_BLACK);
         print_stars(background);
         drawPlayer(data->p);
 
-        //Draw missile player and ennemi
-        drawAllMissile(data->tabMPlayer,MAX_SIZE_TAB_MISSILE_P);
-        drawAllMissile(data->tabMEnemie,MAX_SIZE_TAB_MISSILE_E);
-        
+        //Draw Missile Player and ennemi
+        drawAllMissile(data->tabMPlayer, MAX_SIZE_TAB_Missile_P);
+        drawAllMissile(data->tabMEnnemi, MAX_SIZE_TAB_Missile_E);
+
         //draw Ennemie
-        drawAllEnnemis(data->tabEnemie);
-        /*pv player draw*/
-        draw_Player_Life(data->p->pv,width,height);
+        drawAllEnnemis(data->tabEnnemi);
+        /*pv Player draw*/
+        draw_Player_Life(data->p->pv, width, height);
 
         //on actualise la fenetre
         MLV_actualise_window();
         MLV_delay_according_to_frame_rate();
         frame++;
     } while (!quit && !lose && !win);
-
-
-
 
     char textFinal[20];
 
@@ -224,5 +226,5 @@ void game()
     MLV_free_window();
     /* FREE TIME */
     freeData(data);
-    free_Table_Enemie_File(tabEnemies);
+    free_Table_Ennemi_File(tabEnnemis);
 }

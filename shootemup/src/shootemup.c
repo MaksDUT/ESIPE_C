@@ -5,49 +5,49 @@
 #include <MLV/MLV_all.h>
 #include "shootemup.h"
 
-pixel *creatPixel(int x, int y)
+Pixel *creatPixel(int x, int y)
 {
-    pixel *p = (pixel *)malloc(sizeof(pixel));
+    Pixel *p = (Pixel *)malloc(sizeof(Pixel));
     p->x = x;
     p->y = y;
     return p;
 }
 
-hitbox *creatHitbox(int w, int h)
+Hitbox *creatHitbox(int w, int h)
 {
-    hitbox *hit = (hitbox *)malloc(sizeof(hitbox));
+    Hitbox *hit = (Hitbox *)malloc(sizeof(Hitbox));
     hit->width = w;
     hit->height = h;
     return hit;
 }
 
-Weapon *creatWeapon(char * name,int width,int lenght,int speed,int degat, int reload){
-    Weapon *w= malloc(sizeof(Weapon));
+Weapon *creatWeapon(char *name, int width, int lenght, int speed, int degat, int reload)
+{
+    Weapon *w = malloc(sizeof(Weapon));
     w->name = malloc(strlen(name));
-    strcpy(w->name,name);
-    w->hit = creatHitbox(width,lenght);
+    strcpy(w->name, name);
+    w->hit = creatHitbox(width, lenght);
     w->speed = speed;
     w->reload_init = reload;
-    w->reload=reload;
+    w->reload = reload;
 
     w->degat = degat;
     return w;
-} 
-player *creatPlayer(int pv, int centerX, int centerY, int width, int lenght, int speed, MLV_Color color)
+}
+Player *creatPlayer(int pv, int centerX, int centerY, int width, int lenght, int speed, MLV_Color color)
 {
-    player *p = (player *)malloc(sizeof(player));
+    Player *p = (Player *)malloc(sizeof(Player));
     p->center = creatPixel(centerX, centerY);
     p->hit = creatHitbox(width, lenght);
     p->pv = pv;
-    p->w = creatWeapon("basic",20,20,15,1,300);
+    p->w = creatWeapon("basic", 20, 20, 15, 1, 300);
     p->speed = speed;
     p->color = color;
 
     return p;
 }
 
-
-Ennemi *creatEnemie(char *name, int pv, int centerX, int centerY, int width, int lenght, int speed, MLV_Color color,Weapon *w)
+Ennemi *creatEnnemi(char *name, int pv, int centerX, int centerY, int width, int lenght, int speed, MLV_Color color, Weapon *w)
 {
     Ennemi *e = (Ennemi *)malloc(sizeof(Ennemi));
     e->name = (char *)malloc((MAX_CHAR_NAME + 1) * sizeof(name));
@@ -61,9 +61,9 @@ Ennemi *creatEnemie(char *name, int pv, int centerX, int centerY, int width, int
     return e;
 }
 
-missile *creatMissile(MLV_Color color, int degat, pixel *center, int width, int lenght, int speed, double rad)
+Missile *creatMissile(MLV_Color color, int degat, Pixel *center, int width, int lenght, int speed, double rad)
 {
-    missile *m = (missile *)malloc(sizeof(missile));
+    Missile *m = (Missile *)malloc(sizeof(Missile));
     m->center = creatPixel(center->x, center->y);
     m->color = color;
     m->degat = degat;
@@ -77,78 +77,58 @@ Data *creatData()
 {
     Data *d = (Data *)malloc(sizeof(Data));
     d->vitesse = 15;
-    d->p = creatPlayer(PLAYER_PV, PLAYER_CENTER_X, PLAYER_CENTER_Y, PLAYER_CENTER_WIDTH, PLAYER_CENTER_LENGHT, PLAYER_SPEED, PLAYER_COLOR);
-    d->tabMPlayer = (missile **)malloc(MAX_SIZE_TAB_MISSILE_P * sizeof(missile *));
-    d->tabMEnemie = (missile **)malloc(MAX_SIZE_TAB_MISSILE_E * sizeof(missile *));
-    d->tabEnemie = (Ennemi **)malloc(MAX_SIZE_TAB_ENEMIE * sizeof(Ennemi *));
+    d->p = creatPlayer(Player_PV, Player_CENTER_X, Player_CENTER_Y, Player_CENTER_WIDTH, Player_CENTER_LENGHT, Player_SPEED, Player_COLOR);
+    d->tabMPlayer = (Missile **)malloc(MAX_SIZE_TAB_Missile_P * sizeof(Missile *));
+    d->tabMEnnemi = (Missile **)malloc(MAX_SIZE_TAB_Missile_E * sizeof(Missile *));
+    d->tabEnnemi = (Ennemi **)malloc(MAX_SIZE_TAB_Ennemi * sizeof(Ennemi *));
 
     int i;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_P; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_P; i++)
     {
         d->tabMPlayer[i] = NULL;
     }
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_E; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_E; i++)
     {
-        d->tabMEnemie[i] = NULL;
+        d->tabMEnnemi[i] = NULL;
     }
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
-        d->tabEnemie[i] = NULL;
+        d->tabEnnemi[i] = NULL;
     }
 
     return d;
 }
 
-Ennemi **create_Table_Enemie_File(char *file, Weapon **tabWeapon)
-{
-    int i;
-    Ennemi **tabEnemies = (Ennemi **)malloc(MAX_SIZE_TAB_ENEMIE_FILE * sizeof(Ennemi *));
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE_FILE; i++)
-    {
-        tabEnemies[i] = NULL;
-    }
-    CreatTableOfEnemies(file, &tabEnemies,tabWeapon);
-    return tabEnemies;
-}
 
-Weapon **create_Table_Weapon_File(char *file)
-{
-    int i;
-    Weapon **tabWeapon = malloc(MAX_SIZE_TAB_WEAPON_FILE * sizeof(Weapon *));
-    for (i = 0; i < MAX_SIZE_TAB_WEAPON_FILE; i++)
-    {
-        tabWeapon[i] = NULL;
-    }
-    CreatTableOfWeapon(file, &tabWeapon);
-    return tabWeapon;
-}
 
 /*Copy */
 
-Ennemi *copyEnemie(Ennemi *e)
+Ennemi *copyEnnemi(Ennemi *e)
 {
     if (e != NULL)
     {
-        return creatEnemie(e->name, e->pv, e->center->x, e->center->y, e->hit->width, e->hit->height, e->speed, e->color,copyWeapon(e->w));
+        return creatEnnemi(e->name, e->pv, e->center->x, e->center->y, e->hit->width, e->hit->height, e->speed, e->color, copyWeapon(e->w));
     }
     return NULL;
 }
 
-Weapon *copyWeapon(Weapon *w){
-    if(w!=NULL){
-        return creatWeapon(w->name,w->hit->width,w->hit->height,w->speed,w->degat,w->reload);
+Weapon *copyWeapon(Weapon *w)
+{
+    if (w != NULL)
+    {
+        return creatWeapon(w->name, w->hit->width, w->hit->height, w->speed, w->degat, w->reload);
     }
     return NULL;
 }
 
 /*free structure*/
 
-void freeHitbox(hitbox *h)
+void freeHitbox(Hitbox *h)
 {
     free(h);
 }
 
-void freePlayer(player *p)
+void freePlayer(Player *p)
 {
     free(p->center);
     freeHitbox(p->hit);
@@ -156,7 +136,7 @@ void freePlayer(player *p)
     free(p);
 }
 
-void freeEnemie(Ennemi *e)
+void freeEnnemi(Ennemi *e)
 {
     free(e->name);
     free(e->center);
@@ -165,13 +145,14 @@ void freeEnemie(Ennemi *e)
     free(e);
 }
 
-void freeWeapon(Weapon *w){
+void freeWeapon(Weapon *w)
+{
     free(w->name);
     freeHitbox(w->hit);
     free(w);
 }
 
-void freeMissile(missile *m)
+void freeMissile(Missile *m)
 {
     free(m->center);
     freeHitbox(m->hit);
@@ -182,48 +163,47 @@ void freeData(Data *d)
 {
 
     int i;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_P; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_P; i++)
     {
         if (d->tabMPlayer[i] != NULL)
         {
             freeMissile(d->tabMPlayer[i]);
         }
     }
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_E; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_E; i++)
     {
-        if (d->tabMEnemie[i] != NULL)
+        if (d->tabMEnnemi[i] != NULL)
         {
-            freeMissile(d->tabMEnemie[i]);
+            freeMissile(d->tabMEnnemi[i]);
         }
     }
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
-        if (d->tabEnemie[i] != NULL)
+        if (d->tabEnnemi[i] != NULL)
         {
-            freeEnemie(d->tabEnemie[i]);
+            freeEnnemi(d->tabEnnemi[i]);
         }
     }
-    free(d->tabEnemie);
-    free(d->tabMEnemie);
+    free(d->tabEnnemi);
+    free(d->tabMEnnemi);
     free(d->tabMPlayer);
     freePlayer(d->p);
 
     free(d);
 }
 
-void free_Table_Enemie_File(Ennemi **tabE)
+void free_Table_Ennemi_File(Ennemi **tabE)
 {
     int i;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE_FILE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi_FILE; i++)
     {
         if (tabE[i] != NULL)
         {
-            freeEnemie(tabE[i]);
+            freeEnnemi(tabE[i]);
         }
     }
     free(tabE);
 }
-
 
 void free_Table_Weapon_File(Weapon **tabW)
 {
@@ -238,12 +218,12 @@ void free_Table_Weapon_File(Weapon **tabW)
     free(tabW);
 }
 
-//changer la position des missiles du joueur ou Ennemi 
-missile **changeMissilesPosition(missile **tabM,int width, int height)
+//changer la position des Missiles du joueur ou Ennemi
+Missile **changeMissilesPosition(Missile **tabM, int width, int height)
 {
     int i;
-    missile *m;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_P; i++)
+    Missile *m;
+    for (i = 0; i < MAX_SIZE_TAB_Missile_P; i++)
     {
         m = tabM[i];
         if (m != NULL)
@@ -252,7 +232,7 @@ missile **changeMissilesPosition(missile **tabM,int width, int height)
             m->center->y += sin(m->rad) * m->speed;
             /*  
                 si jamais le changement de position rend le mission en dehors de la zone de la fenetre,
-                alors on free la memoire du missile et on rend sa valeur a NULL dans le tableau.
+                alors on free la memoire du Missile et on rend sa valeur a NULL dans le tableau.
             */
             if ((m->center->x < 0 || m->center->x > width) || (m->center->y < 0 || m->center->y > height))
             {
@@ -264,20 +244,20 @@ missile **changeMissilesPosition(missile **tabM,int width, int height)
     return tabM;
 }
 
-void colisionMissPlayerEnemie(Data *data)
+void colisionMissPlayerEnnemi(Data *data)
 {
     int i, k;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
-        for (k = 0; k < MAX_SIZE_TAB_MISSILE_P; k++)
+        for (k = 0; k < MAX_SIZE_TAB_Missile_P; k++)
         {
-            if (data->tabEnemie[i] != NULL && data->tabMPlayer[k] != NULL)
+            if (data->tabEnnemi[i] != NULL && data->tabMPlayer[k] != NULL)
             {
-                if (isEnemieTouch(data->tabEnemie[i], data->tabMPlayer[k]))
+                if (isEnnemiTouch(data->tabEnnemi[i], data->tabMPlayer[k]))
                 {
-                    if (downEnemieLife(&(data->tabEnemie[i]), data->tabMPlayer[k]->degat))
+                    if (downEnnemiLife(&(data->tabEnnemi[i]), data->tabMPlayer[k]->degat))
                     {
-                        killEnemie(&(data->tabEnemie), i);
+                        killEnnemi(&(data->tabEnnemi), i);
                     }
                     freeMissile(data->tabMPlayer[k]);
                     data->tabMPlayer[k] = NULL;
@@ -287,51 +267,51 @@ void colisionMissPlayerEnemie(Data *data)
     }
 }
 
-void colisionMissEnemiePlayer(Data *data, int *lose)
+void colisionMissEnnemiPlayer(Data *data, int *lose)
 {
     int k;
-    for (k = 0; k < MAX_SIZE_TAB_MISSILE_E; k++)
+    for (k = 0; k < MAX_SIZE_TAB_Missile_E; k++)
     {
-        if (data->tabMEnemie[k] != NULL)
+        if (data->tabMEnnemi[k] != NULL)
         {
-            if (isPlayerTouch(data->p, data->tabMEnemie[k]))
+            if (isPlayerTouch(data->p, data->tabMEnnemi[k]))
             {
-                if (downPlayerLife(&(data->p), data->tabMEnemie[k]->degat))
+                if (downPlayerLife(&(data->p), data->tabMEnnemi[k]->degat))
                 {
                     *lose = 1;
                 }
-                freeMissile(data->tabMEnemie[k]);
-                data->tabMEnemie[k] = NULL;
+                freeMissile(data->tabMEnnemi[k]);
+                data->tabMEnnemi[k] = NULL;
             }
         }
     }
 }
 
-void changeEnemiesPosition(Ennemi ***tabE, int width, int height)
+void changeEnnemisPosition(Ennemi ***tabE, int width, int height)
 {
     int i;
     Ennemi *e;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
         e = (*tabE)[i];
         if (e != NULL)
         {
-            e->center->x += cos(ENEMIE_RAD) * e->speed;
-            e->center->y += sin(ENEMIE_RAD) * e->speed;
+            e->center->x += cos(Ennemi_RAD) * e->speed;
+            e->center->y += sin(Ennemi_RAD) * e->speed;
             /*  
                 si jamais le changement de position rend le mission en dehors de la zone de la fenetre,
-                alors on free la memoire du missile et on rend sa valeur a NULL dans le tableau.
+                alors on free la memoire du Missile et on rend sa valeur a NULL dans le tableau.
             */
             if ((e->center->x < 0 || e->center->x > width) || (e->center->y < 0 || e->center->y > height))
             {
-                freeEnemie(e);
+                freeEnnemi(e);
                 (*tabE)[i] = NULL;
             }
         }
     }
 }
 
-player *changePositionPlayer(player *p, int width, int height)
+Player *changePositionPlayer(Player *p, int width, int height)
 {
 
     int vitesse = p->speed;
@@ -374,33 +354,32 @@ player *changePositionPlayer(player *p, int width, int height)
     return p;
 }
 
-/* ajout dans les tableaux (missile, Ennemi etc..)*/
+/* ajout dans les tableaux (Missile, Ennemi etc..)*/
 
-void addMissilePlayer(missile ***tabM, player *p, int speed)
+void addMissilePlayer(Missile ***tabM, Player *p)
 {
 
-
     int i;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_P; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_P; i++)
     {
         if ((*tabM)[i] == NULL)
         {
-            missile *m = creatMissile(MLV_COLOR_SKY_BLUE, p->w->degat, p->center,p->w->hit->width,p->w->hit->height, p->w->speed, PLAYER_RAD);
+            Missile *m = creatMissile(MLV_COLOR_SKY_BLUE, p->w->degat, p->center, p->w->hit->width, p->w->hit->height, p->w->speed, Player_RAD);
             (*tabM)[i] = m;
             return;
         }
     }
 }
 
-/* ajout dans les tableaux (missile, Ennemi etc..)*/
+/* ajout dans les tableaux (Missile, Ennemi etc..)*/
 
-void addMissileEnemie(missile ***tabM, Ennemi *e, player *p, int speed)
+void addMissileEnnemi(Missile ***tabM, Ennemi *e, Player *p)
 {
 
     double sous1 = p->center->x - e->center->x;
     double sous2 = p->center->y - e->center->y;
 
-    /*missile sur la traj du joueur*/
+    /*Missile sur la traj du joueur*/
     double angle = atan((sous2) / (sous1));
     if (sous1 < 0)
     {
@@ -408,22 +387,22 @@ void addMissileEnemie(missile ***tabM, Ennemi *e, player *p, int speed)
     }
 
     int i;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_P; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Missile_P; i++)
     {
         if ((*tabM)[i] == NULL)
         {
-            missile *m = creatMissile(MLV_COLOR_RED, e->w->degat, e->center, e->w->hit->width,e->w->hit->height, e->w->speed, angle);
+            Missile *m = creatMissile(MLV_COLOR_RED, e->w->degat, e->center, e->w->hit->width, e->w->hit->height, e->w->speed, angle);
             (*tabM)[i] = m;
             return;
         }
     }
 }
 
-int table_Enemie_Empty(Ennemi **tabE)
+int is_Table_Ennemi_Empty(Ennemi **tabE)
 {
     int i;
     Ennemi *e;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
         e = tabE[i];
         if (e != NULL)
@@ -434,11 +413,11 @@ int table_Enemie_Empty(Ennemi **tabE)
     return 1;
 }
 
-void fireEnemieWithTime(Ennemi ***tabE, missile ***tabM,player *p,int time)
+void fireEnnemiWithTime(Ennemi ***tabE, Missile ***tabM, Player *p, int time)
 {
     int i;
     Ennemi *e;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
         e = (*tabE)[i];
         if (e != NULL)
@@ -446,13 +425,13 @@ void fireEnemieWithTime(Ennemi ***tabE, missile ***tabM,player *p,int time)
             if (time % e->w->reload == 0)
             {
                 e->w->reload = rand() % e->w->reload_init + (e->w->reload_init - e->w->reload_init / 2);
-                addMissileEnemie(tabM, e, p,e->w->speed);
+                addMissileEnnemi(tabM, e, p);
             }
         }
     }
 }
 
-Ennemi *findEnemieInTableByName(char *name, Ennemi **table, int size_table)
+Ennemi *findEnnemiInTableByName(char *name, Ennemi **table, int size_table)
 {
     Ennemi *e;
     int i;
@@ -469,7 +448,6 @@ Ennemi *findEnemieInTableByName(char *name, Ennemi **table, int size_table)
     }
     return NULL;
 }
-
 
 Weapon *findWeaponInTableByName(char *name, Weapon **table, int size_table)
 {
@@ -489,24 +467,24 @@ Weapon *findWeaponInTableByName(char *name, Weapon **table, int size_table)
     return NULL;
 }
 
-void addEnemieINTable(Ennemi *e, Ennemi ***tabE)
+void addEnnemiINTable(Ennemi *e, Ennemi ***tabE)
 {
 
     int i;
-    Ennemi *enemieTable;
-    for (i = 0; i < MAX_SIZE_TAB_ENEMIE; i++)
+    Ennemi *EnnemiTable;
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi; i++)
     {
-        enemieTable = (*tabE)[i];
-        if (enemieTable == NULL)
+        EnnemiTable = (*tabE)[i];
+        if (EnnemiTable == NULL)
         {
-            //e = creatEnemie("tutu", 2, (50 + i * 50) % 1920, 50, 25, 25, 15, MLV_COLOR_BROWN4);
+            //e = creatEnnemi("tutu", 2, (50 + i * 50) % 1920, 50, 25, 25, 15, MLV_COLOR_BROWN4);
             (*tabE)[i] = e;
             return;
         }
     }
 }
 
-int isEnemieTouch(Ennemi *e, missile *m)
+int isEnnemiTouch(Ennemi *e, Missile *m)
 {
 
     int xe1 = e->center->x - (e->hit->width) / 2;
@@ -526,7 +504,7 @@ int isEnemieTouch(Ennemi *e, missile *m)
     return 1;
 }
 
-int isPlayerTouch(player *p, missile *m)
+int isPlayerTouch(Player *p, Missile *m)
 {
 
     int xe1 = p->center->x - (p->hit->width) / 2;
@@ -549,7 +527,7 @@ int isPlayerTouch(player *p, missile *m)
     renvoie 0 si le joueur est toujours en vie
     1 sinon.
  */
-int downPlayerLife(player **p, int degat)
+int downPlayerLife(Player **p, int degat)
 {
     (*p)->pv -= degat;
     if ((*p)->pv <= 0)
@@ -563,7 +541,7 @@ int downPlayerLife(player **p, int degat)
     renvoie 0 si le joueur est toujours en vie
     1 sinon.
  */
-int downEnemieLife(Ennemi **e, int degat)
+int downEnnemiLife(Ennemi **e, int degat)
 {
     (*e)->pv -= degat;
     if ((*e)->pv <= 0)
@@ -573,18 +551,24 @@ int downEnemieLife(Ennemi **e, int degat)
     return 0;
 }
 
-void killEnemie(Ennemi ***tab, int index)
+void killEnnemi(Ennemi ***tab, int index)
 {
     if ((*tab)[index]->pv <= 0)
     {
-        freeEnemie((*tab)[index]);
+        freeEnnemi((*tab)[index]);
         (*tab)[index] = NULL;
     }
 }
 
-//on assume que tabEnemies est vide car il s'agit de l'initialisation
-int CreatTableOfEnemies(char *fileString, Ennemi ***tabEnemies, Weapon **tabWeapon)
+Ennemi **create_Table_Ennemi_File(char *fileString, Weapon **tabWeapon)
 {
+    int i;
+    Ennemi **tabEnnemis = (Ennemi **)malloc(MAX_SIZE_TAB_Ennemi_FILE * sizeof(Ennemi *));
+    for (i = 0; i < MAX_SIZE_TAB_Ennemi_FILE; i++)
+    {
+        tabEnnemis[i] = NULL;
+    }
+    
     int pv, center_x, center_y, width, lenght, speed;
     char *name = (char *)malloc((MAX_CHAR_NAME + 1) * sizeof(name));
     MLV_Color color;
@@ -595,7 +579,7 @@ int CreatTableOfEnemies(char *fileString, Ennemi ***tabEnemies, Weapon **tabWeap
     if (file == NULL)
     {
         printf("Error File %s not found \n", fileString);
-        return -1;
+        exit(-1);
     }
     char l[500];
     char scolor[60];
@@ -604,28 +588,33 @@ int CreatTableOfEnemies(char *fileString, Ennemi ***tabEnemies, Weapon **tabWeap
     {
         if (l[0] != '#')
         {
-            ret = sscanf(l, "%s %d %d %d %d %d %d %s %s", name, &pv, &center_x, &center_y, &width, &lenght, &speed, scolor,weapon);
+            ret = sscanf(l, "%s %d %d %d %d %d %d %s %s", name, &pv, &center_x, &center_y, &width, &lenght, &speed, scolor, weapon);
             if (ret != -1)
             {
                 /*
                 printf("name: %s, pv: %d, center_x: %d, center_y: %d, width: %d, lenght: %d, speed: %d, color: %s \n \n", name, pv, center_x, center_y, width, lenght, speed, scolor);
                 */
                 color = MLV_convert_string_to_color(scolor);
-                Weapon * w = findWeaponInTableByName(weapon,tabWeapon,MAX_SIZE_TAB_WEAPON_FILE);
-                (*tabEnemies)[index] = creatEnemie(name, pv, center_x, center_y, width, lenght, speed, color,w);
+                Weapon *w = findWeaponInTableByName(weapon, tabWeapon, MAX_SIZE_TAB_WEAPON_FILE);
+                tabEnnemis[index] = creatEnnemi(name, pv, center_x, center_y, width, lenght, speed, color, w);
                 index++;
             }
         }
     }
     fclose(file);
-    return 0;
+
+    return tabEnnemis;
 }
 
-
-//on assume que tabEnemies est vide car il s'agit de l'initialisation
-int CreatTableOfWeapon(char *fileString, Weapon ***tabWeapon)
+Weapon **create_Table_Weapon_File(char *fileString)
 {
-    int width, lenght, speed,degat,reload;
+    int i;
+    Weapon **tabWeapon = malloc(MAX_SIZE_TAB_WEAPON_FILE * sizeof(Weapon *));
+    for (i = 0; i < MAX_SIZE_TAB_WEAPON_FILE; i++)
+    {
+        tabWeapon[i] = NULL;
+    }
+        int width, lenght, speed, degat, reload;
     char *name = (char *)malloc((MAX_CHAR_NAME + 1) * sizeof(name));
     //MLV_Color color;
 
@@ -635,7 +624,7 @@ int CreatTableOfWeapon(char *fileString, Weapon ***tabWeapon)
     if (file == NULL)
     {
         printf("Error File %s not found \n", fileString);
-        return -1;
+        exit(-1);
     }
     char l[500];
     int ret;
@@ -643,17 +632,18 @@ int CreatTableOfWeapon(char *fileString, Weapon ***tabWeapon)
     {
         if (l[0] != '#')
         {
-            ret = sscanf(l, "%s %d %d %d %d %d", name, &width, &lenght, &speed,&degat,&reload);
+            ret = sscanf(l, "%s %d %d %d %d %d", name, &width, &lenght, &speed, &degat, &reload);
             if (ret != -1)
             {
                 /*
                 printf("name: %s, pv: %d, center_x: %d, center_y: %d, width: %d, lenght: %d, speed: %d, color: %s \n \n", name, pv, center_x, center_y, width, lenght, speed, scolor);
                 */
-                (*tabWeapon)[index] = creatWeapon(name, width, lenght, speed,degat,reload);
+                tabWeapon[index] = creatWeapon(name, width, lenght, speed, degat, reload);
                 index++;
             }
         }
     }
     fclose(file);
-    return 0;
+
+    return tabWeapon;
 }

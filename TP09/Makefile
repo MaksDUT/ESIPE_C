@@ -3,6 +3,12 @@ CFLAGS=-Wall -ansi -g
 OBJ=exercice2.o 
 
 
+run_3: clean exo3 
+	./exo3
+
+run_2: clean exo2 
+	./exo2
+
 exercice2: $(OBJ)
 	$(CC) -o exercice2 $(OBJ) 
 

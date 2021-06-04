@@ -3,15 +3,47 @@
 
 #include "shootemup.h"
 
-void drawPlayer(player *p);
+/**
+ * @brief draw Player
+ * 
+ * @param p 
+ */
+void drawPlayer(Player *p);
+/**
+ * @brief draw one Ennemi
+ * 
+ * @param e 
+ */
 void drawEnnemi(Ennemi *e);
-void drawAllMissile(missile **tabM, int size);
 
-void drawAllMissileEnemie(missile **tabM);
-void drawMissile(missile *m);
+/**
+ * @brief draw all the Missile from array
+ * 
+ * @param tabM 
+ * @param size 
+ */
+void drawAllMissile(Missile **tabM, int size);
+
+/**
+ * @brief draw one Missile
+ * 
+ * @param m 
+ */
+void drawMissile(Missile *m);
+/**
+ * @brief draw All Ennemis 
+ * 
+ * @param tabE 
+ */
 void drawAllEnnemis(Ennemi **tabE);
-
-void draw_Player_Life(int pv_player, int width, int height);
+/**
+ * @brief draw Player life
+ * 
+ * @param pv_Player 
+ * @param width 
+ * @param height 
+ */
+void draw_Player_Life(int pv_Player, int width, int height);
 
 
 #endif

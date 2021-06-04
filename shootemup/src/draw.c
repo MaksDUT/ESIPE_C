@@ -1,17 +1,17 @@
 #include <MLV/MLV_all.h>
 #include "draw.h"
 
-void drawPlayer(player *p)
+void drawPlayer(Player *p)
 {
     int x = p->center->x - (p->hit->width) / 2;
     int y = p->center->y - (p->hit->height) / 2;
     MLV_draw_filled_rectangle(x, y, p->hit->width, p->hit->height, p->color);
 }
 
-void drawAllMissile(missile **tabM, int size)
+void drawAllMissile(Missile **tabM, int size)
 {
     int i;
-    missile *m;
+    Missile *m;
     for (i = 0; i < size; i++)
     {
         m = tabM[i];
@@ -21,11 +21,11 @@ void drawAllMissile(missile **tabM, int size)
         }
     }
 }
-void drawAllMissileEnemie(missile **tabM)
+void drawAllMissileEnnemi(Missile **tabM)
 {
     int i;
-    missile *m;
-    for (i = 0; i < MAX_SIZE_TAB_MISSILE_E; i++)
+    Missile *m;
+    for (i = 0; i < MAX_SIZE_TAB_Missile_E; i++)
     {
         m = tabM[i];
         if (m != NULL)
@@ -35,7 +35,7 @@ void drawAllMissileEnemie(missile **tabM)
     }
 }
 
-void drawMissile(missile *m)
+void drawMissile(Missile *m)
 {
     int x = m->center->x - (m->hit->width) / 2;
     int y = m->center->y - (m->hit->height) / 2;
@@ -45,7 +45,7 @@ void drawMissile(missile *m)
 void drawAllEnnemis(Ennemi **tabE){
     int i;
     Ennemi *e;
-    for(i = 0; i<MAX_SIZE_TAB_ENEMIE;i++){
+    for(i = 0; i<MAX_SIZE_TAB_Ennemi;i++){
         e = tabE[i];
         if(e!=NULL){
             drawEnnemi(e);
@@ -60,7 +60,7 @@ void drawEnnemi(Ennemi *e)
     MLV_draw_filled_rectangle(x, y, e->hit->width, e->hit->height, e->color);
 }
 
-void draw_Player_Life(int pv_player, int width, int height){
+void draw_Player_Life(int pv_Player, int width, int height){
 
     int h = height/40; 
     int w = width/10;
@@ -68,8 +68,8 @@ void draw_Player_Life(int pv_player, int width, int height){
     int x = 50;
     int y = height-(h*2);
     
-    int pv_act = w/PLAYER_PV; 
+    int pv_act = w/Player_PV; 
 
     MLV_draw_filled_rectangle(x, y, w,h, MLV_COLOR_WHITE_SMOKE);
-    MLV_draw_filled_rectangle(x, y, pv_act*pv_player,h, MLV_COLOR_GREEN);
+    MLV_draw_filled_rectangle(x, y, pv_act*pv_Player,h, MLV_COLOR_GREEN);
 }
