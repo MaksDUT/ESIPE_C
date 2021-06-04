@@ -1,0 +1,6 @@
+#exemple :test
+# name width lenght speed degat reload
+# 
+basic 7 7 20 1 150
+canon 30 30 15 1 100
+canonBoss 50 50 10 2 50
