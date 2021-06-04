@@ -15,15 +15,14 @@ On retrouve dans ce TP deux éxécutable.
 ## Commande d'éxécution
  dans le TP9 il y a un Makefile. 
 
-Pour l'instalation de ***exo1***  
+Pour l'instalation de ***exo2***  
 ###### En étant dans le dossier TP9 :
 ```Bash
-    /TP9 make run_1
+    /TP9 make run_2
 ```
 
-Pour l'instalation de ***exo2*** 
+Pour l'instalation de ***exo3*** 
 
-###### En étant dans le dossier sudoku :
 ```Bash
-    /TP9 make run_2
+    /TP9 make run_3
 ```
