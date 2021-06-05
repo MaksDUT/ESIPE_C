@@ -72,6 +72,7 @@ void game()
     int win = 0;
     /*Time / Frame*/
     int frame = 0;
+    int frame_rate = 60;
 
     /*event struc*/
     MLV_Event event = MLV_NONE;
@@ -91,6 +92,7 @@ void game()
     Weapon **tabWeapon = create_Table_Weapon_File("weapon.txt");
     /*Creation des ennemis*/
     Ennemi **tabEnnemis = create_Table_Ennemi_File("Ennemis.txt", tabWeapon);
+    int numbers_ennemis = get_numbers_ennemi(tabEnnemis);
 
     /*changment d'Ennemi*/
     int monster = 0;
@@ -103,13 +105,13 @@ void game()
     Créé et affiche la fenêtre
     */
     MLV_create_window("Test ", "test", width, height);
-    MLV_change_frame_rate(60);
+    MLV_change_frame_rate(frame_rate);
 
     int waves = 0;
     do
     {
-
-        if (frame > 300)
+        //tempo pour que le joueur ne sois pas surpris 
+        if (frame > frame_rate*3)
         {
             //generateur de niveau
             if (waves < WAVES)
@@ -128,7 +130,7 @@ void game()
                         tmp->center->y = tmp->hit->height / 2;
                         addEnnemiINTable(tmp, &data->tabEnnemi);
                     }
-                    monster = (monster + 1) % 4;
+                    monster = (monster + 1) % numbers_ennemis;
                     waves++;
                 }
             }
@@ -227,4 +229,5 @@ void game()
     /* FREE TIME */
     freeData(data);
     free_Table_Ennemi_File(tabEnnemis);
+    free_Table_Weapon_File(tabWeapon);
 }

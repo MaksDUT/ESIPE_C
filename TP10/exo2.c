@@ -1,22 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "exo2.h"
 
-typedef struct _cell
-{
-    char *first_name;
-    char *last_name;
-    int age;
-    struct _cell *next;
-} Cell, *List;
-
-Cell *allocate_cell(char *first, char *last, int age);
-int age_order(Cell *p1, Cell *p2);
-int name_order(Cell *p1, Cell *p2);
-void ordered_insertion(List *l, Cell *new, int order_func(Cell *, Cell *));
-void print_list(List l);
-void free_list(List l);
-
+/**
+ * @brief create a Cell 
+ * 
+ * @param first 
+ * @param last 
+ * @param age 
+ * @return Cell* 
+ */
 Cell *allocate_cell(char *first, char *last, int age)
 {
     Cell *cel = (Cell *)malloc(sizeof(Cell));
@@ -28,7 +22,13 @@ Cell *allocate_cell(char *first, char *last, int age)
     cel->next = NULL;
     return cel;
 }
-
+/**
+ * @brief sort by age and if age are equals sort by name
+ * 
+ * @param p1 
+ * @param p2 
+ * @return int 
+ */
 int age_order(Cell *p1, Cell *p2)
 {
     int val = p1->age - p2->age;
@@ -39,6 +39,13 @@ int age_order(Cell *p1, Cell *p2)
     return val;
 }
 
+/**
+ * @brief sort by name and if age are equals sort by age
+ * 
+ * @param p1 
+ * @param p2 
+ * @return int 
+ */
 int name_order(Cell *p1, Cell *p2)
 {
     int val = strcmp(p1->last_name, p2->last_name);
@@ -49,6 +56,13 @@ int name_order(Cell *p1, Cell *p2)
     return val;
 }
 
+/**
+ * @brief insert the element in order of the function_order
+ * 
+ * @param l 
+ * @param new 
+ * @param order_func 
+ */
 void ordered_insertion(List *l, Cell *new, int order_func(Cell *, Cell *))
 {
     Cell *cel = *l;
@@ -72,6 +86,11 @@ void ordered_insertion(List *l, Cell *new, int order_func(Cell *, Cell *))
     }
 }
 
+/**
+ * @brief print the list
+ * 
+ * @param l 
+ */
 void print_list(List l)
 {
     Cell *tmp = l;
@@ -84,6 +103,11 @@ void print_list(List l)
     printf(" ]\n");
 }
 
+/**
+ * @brief free the list
+ * 
+ * @param l 
+ */
 void free_list(List l)
 {
     while (l)
@@ -117,12 +141,6 @@ int main(int argc, char const *argv[])
         new = allocate_cell(first, last, age);
         new2 = allocate_cell(first, last, age);
         ordered_insertion(&lage, new, age_order);
-        /*printf("name %s %s ,age : %d \n", lage->first_name, lage->last_name, lage->age);*/
-        /*
-        print_list(lage);
-        printf("test \n");
-        printf("name %s %s ,age : %d \n", lalpha->first_name, lalpha->last_name, lalpha->age);
-        */
         ordered_insertion(&lalpha, new2, name_order);
     }
     fclose(f);

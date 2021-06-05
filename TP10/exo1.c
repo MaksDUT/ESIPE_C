@@ -1,6 +1,12 @@
 #include <stdio.h>
 
-
+/**
+ * @brief swap function that work with all object
+ * 
+ * @param z1 
+ * @param z2 
+ * @param size 
+ */
 void swap_mem(void* z1,void* z2,size_t size){
     int i;
 

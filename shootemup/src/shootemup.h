@@ -203,6 +203,12 @@ void freeData(Data *d);
 void free_Table_Ennemi_File(Ennemi **tabE);
 
 /**
+ * @brief free the table of weapons in the file setting 
+ * 
+ * @param tabW 
+ */
+void free_Table_Weapon_File(Weapon **tabW);
+/**
  * @brief change the position of all the missile on the table tabM
  * 
  * @param tabM 
@@ -362,10 +368,19 @@ Ennemi **create_Table_Ennemi_File(char *file, Weapon **tabWeapon);
  */
 Weapon **create_Table_Weapon_File(char *file);
 
+/**
+ * @brief Get the numbers ennemi int the array
+ * 
+ * @param tabEnnemis 
+ * @return int 
+ */
+int get_numbers_ennemi(Ennemi **tabEnnemis);
+
+
 //Global variable Game
 #define RATIO_SCREEN 0.8
 //number of wave of Ennemi
-#define WAVES 4
+#define WAVES 5
 
 //Global variable for DATA structure
 

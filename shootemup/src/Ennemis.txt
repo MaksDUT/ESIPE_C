@@ -1,8 +1,9 @@
 #exemple :test
 #name pv center_x center_y width lenght speed color 
 # 
-robot 2 200 200 50 30 2 MLV_COLOR_PINK basic
-R2D2 1 1 1 90 40 2 MLV_COLOR_PINK basic
-robot2 1 1 1 100 100 1 MLV_COLOR_GREEN canon
+robot 1 1 1 50 30 2 MLV_COLOR_PINK basic
+R2D2 2 1 1 90 40 2 MLV_COLOR_PINK basic
+robot2 3 1 1 100 100 1 MLV_COLOR_GREEN canon
 R2D4 15 1 1 300 20 1 MLV_COLOR_BLUE canonBoss
+goblin 5 1 1  150 60 1 MLV_COLOR_YELLOW canon
 

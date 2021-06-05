@@ -2,6 +2,13 @@
 #include <stdlib.h>
 
 
+/**
+ * @brief initialize the array
+ * 
+ * @param n 
+ * @param m 
+ * @return char** 
+ */
 char** init_array_char(int n,int m){
     int i;
     char** t;
@@ -15,7 +22,12 @@ char** init_array_char(int n,int m){
     }
     return t;
 }
-
+/**
+ * @brief free the array
+ * 
+ * @param t 
+ * @param n 
+ */
 void free_array_double_char(char** t,int n){
     if(t==NULL) return;
     int i;
@@ -26,6 +38,13 @@ void free_array_double_char(char** t,int n){
     return;
 }
 
+/**
+ * @brief filled the array with alphabetic character
+ * 
+ * @param t 
+ * @param n 
+ * @param m 
+ */
 void feed_array_char(char** t,int n,int m){
     if(n<0 || m<0) return;
     int i,j,k;
@@ -39,6 +58,13 @@ void feed_array_char(char** t,int n,int m){
     }
 }
 
+/**
+ * @brief print the array 
+ * 
+ * @param t 
+ * @param n 
+ * @param m 
+ */
 void print_array_char(char** t, int n, int m){
     if(n<0 || m<0) return;
     int i,j;

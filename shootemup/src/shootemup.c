@@ -647,3 +647,14 @@ Weapon **create_Table_Weapon_File(char *fileString)
 
     return tabWeapon;
 }
+
+int get_numbers_ennemi(Ennemi **tabEnnemis){
+    int i;
+    int count =0;
+    for(i=0;i<MAX_SIZE_TAB_Ennemi_FILE;i++){
+        if(tabEnnemis[i]!=NULL){
+            count++;
+        }
+    }
+    return count;
+}

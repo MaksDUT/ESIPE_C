@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/**
+ * @brief intialize the array
+ * 
+ * @param n 
+ * @param argv 
+ * @return char** 
+ */
 char** init_array_char(int n,char *argv[]){
     int i;
     char** t;
@@ -16,7 +24,12 @@ char** init_array_char(int n,char *argv[]){
     return t;
 }
 
-
+/**
+ * @brief free the array
+ * 
+ * @param t 
+ * @param n 
+ */
 void free_array_double_char(char** t,int n){
     if(t==NULL) return;
     int i;
@@ -26,7 +39,13 @@ void free_array_double_char(char** t,int n){
     free(t);
     return;
 }
-
+/**
+ * @brief filled the array with the program's arguments 
+ * 
+ * @param t 
+ * @param n 
+ * @param argv 
+ */
 void feed_array_char(char** t,int n,char *argv[]){
     if(n<0) return;
     int i,j;
@@ -41,7 +60,12 @@ void feed_array_char(char** t,int n,char *argv[]){
     }
 }
 
-
+/**
+ * @brief print the array
+ * 
+ * @param t 
+ * @param n 
+ */
 void print_array_char(char** t, int n){
     if(n<0) return;
     int i,j;
