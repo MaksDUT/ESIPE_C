@@ -1,5 +1,4 @@
 # TP10 Liste chainé
- Le TP a pour but de concevoir un sudoku graphique en C avec la librairie MLV.
 
  Il fait partie d'une suite de TP (fil rouge) réalisé pendant mon cursus en premiere année à l'ESIPE en programmation C.
  Pour plus d'information sur le TP, on peut le retrouver [ici](http://igm.univ-mlv.fr/~borie/esipe/tp10.pdf).
